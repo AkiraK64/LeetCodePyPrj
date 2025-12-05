@@ -7,3 +7,19 @@ class DailySolution:
         for num in nums:
             sum += num
         return len(nums) - 1 if sum % 2 == 0 else 0
+    # 153. Find Minimum in Rotated Sorted Array
+    def findMin(self, nums: list[int]) -> int:
+        l = 0
+        r = len(nums) - 1
+        res = nums[l]
+        while l <= r:
+            mid = int((l + r) / 2)
+            res = min(res, nums[mid])
+            if nums[mid] <= nums[l] and nums[mid] <= nums[r]:
+                r = mid - 1
+            elif nums[mid] >= nums[l] and nums[mid] >= nums[r]:
+                l = mid + 1
+            else:
+                res = min(res, nums[l])
+                break
+        return res
