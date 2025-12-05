@@ -1,3 +1,4 @@
+import heapq
 class Solution:
     def __init__(self):
         pass
@@ -41,3 +42,12 @@ class Solution:
             elif time > stack[-1]:
                 stack.append(time)
         return len(stack)
+    # 215. Kth Largest Element in an Array
+    def findKthLargest(self, nums: list[int], k: int) -> int:
+        pq = []
+        for num in nums:
+            if len(pq) == k:
+                heapq.heappushpop(pq, num)
+            else:
+                heapq.heappush(pq, num)
+        return pq[0]
