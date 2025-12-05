@@ -1,4 +1,6 @@
 import heapq
+import math
+
 class Solution:
     def __init__(self):
         pass
@@ -51,3 +53,14 @@ class Solution:
             else:
                 heapq.heappush(pq, num)
         return pq[0]
+    # 973. K Closest Points to Origin
+    def kClosest(self, points: list[list[int]], k: int) -> list[list[int]]:
+        heap = []
+        for point in points:
+            dist = point[0]**2 + point[1]**2
+            if len(heap) == k:
+                heapq.heappushpop(heap, (-dist, point))
+            else:
+                heapq.heappush(heap, (-dist, point))
+        return [p for _,p in heap]
+

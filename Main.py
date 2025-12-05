@@ -1,4 +1,4 @@
 from Solution import Solution
 solution = Solution()
-nums = [100, 4, 200, 1, 2, 3]
-print(solution.longestConsecutive(nums))
+nums = [[3,3],[5,-1],[-2,4]]
+print(solution.kClosest(nums, 2))
