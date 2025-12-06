@@ -1,5 +1,7 @@
 import heapq
 import math
+from typing import Optional
+from ListNode import ListNode
 
 class Solution:
     def __init__(self):
@@ -63,4 +65,35 @@ class Solution:
             else:
                 heapq.heappush(heap, (-dist, point))
         return [p for _,p in heap]
+    # 143. Reorder List
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        mid = head
+        prevMid = ListNode(0, mid)
+        tail = head
+        while tail.next != None:
+            prevMid = prevMid.next
+            mid = mid.next
+            tail = tail.next
+            if tail.next != None:
+                tail = tail.next
+        curMid = mid
+        nextMid = mid.next
+        while nextMid != None:
+            prevMid = curMid
+            curMid = nextMid
+            nextMid = nextMid.next
+            curMid.next = prevMid
+        cur = head
+        curNext = head
+        prevTail = tail
+        while mid != tail:
+            curNext = cur.next
+            prevTail = tail.next
+            cur.next = tail
+            tail.next = curNext
+            cur = curNext
+            tail = prevTail
+        if cur != mid:
+            cur.next = mid
+        tail.next = None
 
