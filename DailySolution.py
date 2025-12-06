@@ -1,3 +1,5 @@
+import heapq
+
 class DailySolution:
     def __init__(self):
         pass
@@ -47,4 +49,26 @@ class DailySolution:
                 else:
                     l = mid + 1
         return -1
-    
+    # 3578. Count Partitions With Min-Max Difference At most K
+    def countPartitions(self, nums: list[int], k: int) -> int:
+        MOD = int(1e9+7)
+        n = len(nums)
+        l=1
+        res = [0 for i in range(n+1)]
+        prefix = [0 for i in range(n+1)]
+        res[0] = 1
+        prefix[0] = 1
+        d = {}
+        for r in range(1,n+1):
+            cur = nums[r-1]
+            d[cur] = d.get(cur, 0) + 1
+            while max(d) - min(d) > k:
+                d[nums[l-1]] -= 1
+                if(d[nums[l-1]] == 0):
+                    d.pop(nums[l-1])
+                l += 1
+            res[r] = (prefix[r-1] - (0 if l < 2 else prefix[l-2])) % MOD
+            res[r] = (res[r] + MOD) % MOD
+            prefix[r] = (prefix[r-1] + res[r]) % MOD
+        return res[-1]
+        
