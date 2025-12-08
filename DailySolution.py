@@ -1,4 +1,5 @@
 import heapq
+import math
 
 class DailySolution:
     def __init__(self):
@@ -71,4 +72,17 @@ class DailySolution:
             res[r] = (res[r] + MOD) % MOD
             prefix[r] = (prefix[r-1] + res[r]) % MOD
         return res[-1]
-        
+    # 1925. Count Squares Sum Triples
+    def countTriples(self, n: int) -> int:
+        m = int(math.sqrt(n**2/2))
+        max = n**2
+        res = 0
+        for i in range(1, m+1):
+            for j in range(i+1, n):
+                sum = i**2 + j**2
+                if sum > max:
+                    break
+                sqrt = int(math.sqrt(sum))
+                if sum == sqrt**2:
+                    res += 2
+        return res
