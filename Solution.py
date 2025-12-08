@@ -96,4 +96,18 @@ class Solution:
         if cur != mid:
             cur.next = mid
         tail.next = None
-
+    # 287. Find the Duplicate Numbers
+    def findDuplicate(self, nums: list[int]) -> int:
+        slow = 0
+        fast = 0
+        while True:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            if slow == fast:
+                break
+        slow2 = 0
+        while True:
+            slow = nums[slow]
+            slow2 = nums[slow2]
+            if slow == slow2:
+                return slow
