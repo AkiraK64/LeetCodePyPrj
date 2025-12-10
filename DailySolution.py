@@ -86,3 +86,22 @@ class DailySolution:
                 if sum == sqrt**2:
                     res += 2
         return res
+    # 3583. Count Special Triplets
+    def specialTriplets(self, nums: list[int]) -> int:
+        MOD = int(1e9+7)
+        leftCount = {}
+        rightCount = {}
+        res = 0
+        for num in nums:
+            rightCount[num] = rightCount.get(num, 0) + 1
+        for num in nums:
+            rightCount[num] -= 1
+            target = num * 2
+            leftTargetCount = leftCount.get(target, 0)
+            rightTargetCount = rightCount.get(target, 0)
+            res += (leftTargetCount * rightTargetCount) % MOD
+            res %= MOD
+            leftCount[num] = leftCount.get(num, 0) + 1
+        return int(res)
+
+
