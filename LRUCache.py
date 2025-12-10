@@ -1,18 +1,20 @@
+from __future__ import annotations
+
 # 146. LRU Cache
 class Node:
-    def __init__(self, key:int, value:int, next:"Node", prev:"Node"):
+    def __init__(self, key:int, value:int):
         self.key = key
         self.value = value
-        self.next = next
-        self.prev = prev
+        self.next:Node = None
+        self.prev:Node = None
 
 class LRUCache:
 
     def __init__(self, capacity: int):
         self.map:dict[int, Node] = {}
         self.capacity = capacity
-        self.left = Node(0, 0, None, None)
-        self.right = Node(0, 0, None, None)
+        self.left = Node(0, 0)
+        self.right = Node(0, 0)
         self.left.next = self.right
         self.right.prev = self.left
     
@@ -48,7 +50,7 @@ class LRUCache:
                 first = self.left.next
                 self.map.pop(first.key)
                 self.remove(first)
-            node = Node(key, value, None, None)
+            node = Node(key, value)
             self.map[key] = node
             self.insert(node)
             
