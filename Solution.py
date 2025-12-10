@@ -1,7 +1,8 @@
 import heapq
 import math
-from typing import Optional
 from ListNode import ListNode
+from TreeNode import TreeNode
+from collections import deque
 
 class Solution:
     def __init__(self):
@@ -66,7 +67,7 @@ class Solution:
                 heapq.heappush(heap, (-dist, point))
         return [p for _,p in heap]
     # 143. Reorder List
-    def reorderList(self, head: Optional[ListNode]) -> None:
+    def reorderList(self, head: ListNode | None) -> None:
         mid = head
         prevMid = ListNode(0, mid)
         tail = head
@@ -111,3 +112,36 @@ class Solution:
             slow2 = nums[slow2]
             if slow == slow2:
                 return slow
+    # 235. Lowest Common Ancestor Of Binary Search Tree
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        if root == None or p == None or q == None:
+            return None
+        if max(p.val, q.val) < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        elif min(p.val, q.val) > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        else:
+            return root
+    # 621. Task Schedule
+    def leastInterval(self, tasks: list[str], n: int) -> int:
+        fTask = {}
+        for t in tasks:
+            fTask[t] = fTask.get(t, 0) + 1
+        maxHeap = []
+        for t in fTask:
+            heapq.heappush(maxHeap, -fTask[t])
+        q = deque()
+        time = 0
+        while len(maxHeap) > 0 or len(q) > 0:
+            time += 1
+            if len(maxHeap) == 0:
+                nextTask = q.popleft()
+                time = nextTask[1]
+                heapq.heappush(maxHeap, -nextTask[0])
+            elif len(q) > 0 and q[0][1] == time:
+                heapq.heappush(maxHeap, -q.popleft()[0])
+            curTask = heapq.heappop(maxHeap)
+            if -curTask > 1:
+                q.append([-curTask-1, time + n + 1])
+        return time
+                
