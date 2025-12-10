@@ -103,5 +103,20 @@ class DailySolution:
             res %= MOD
             leftCount[num] = leftCount.get(num, 0) + 1
         return int(res)
+    # 3577. Count the Number of Computer Unlocking Permutations
+    def countPermutations(self, complexity: list[int]) -> int:
+        MOD = int(1e9+7)
+        res = 1
+        length = len(complexity)
+        for i in range(1, length):
+            if complexity[i] <= complexity[0]:
+                return 0
+        length -= 1
+        while length > 0:
+            res *= length
+            res %= MOD
+            length -= 1
+        return res
+
 
 
