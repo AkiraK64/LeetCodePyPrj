@@ -144,4 +144,34 @@ class Solution:
             if -curTask > 1:
                 q.append([-curTask-1, time + n + 1])
         return time
-                
+    # 199. Binary Tree Right Side View
+    def rightSideView(self, root: TreeNode | None) -> list[int]: 
+        res = []
+        if root == None:
+            return res
+        dq = deque([root])
+        while len(dq) > 0:
+            res.append(dq[-1].val)
+            size = len(dq)
+            while size > 0:
+                curNode = dq.popleft()
+                if curNode != None:
+                    if curNode.left != None:
+                        dq.append(curNode.left)
+                    if curNode.right != None:
+                        dq.append(curNode.right)
+                size -= 1
+        return res  
+    # 1448. Count Good Nodes In Binary Tree
+    def goodNodes(self, root: TreeNode) -> int:
+        return self.dfs_goodNodes(root, root.val)
+    def dfs_goodNodes(self, root: TreeNode | None, maxVal: int) -> int:
+        if root == None:
+            return 0
+        res = 0
+        if root.val >= maxVal:
+            res += 1
+        newMaxVal = max(maxVal, root.val)
+        res += self.dfs_goodNodes(root.left, newMaxVal)
+        res += self.dfs_goodNodes(root.right, newMaxVal)
+        return res
