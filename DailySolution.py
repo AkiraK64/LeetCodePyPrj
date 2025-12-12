@@ -117,6 +117,28 @@ class DailySolution:
             res %= MOD
             length -= 1
         return res
-
+    # 3433. Count Mentions Per User
+    def countMentions(self, numberOfUsers: int, events: list[list[str]]) -> list[int]:
+        mentions = [0] * numberOfUsers
+        startOnlineTime = [0] * numberOfUsers
+        orders = {"OFFLINE" : 0, "MESSAGE" : 1}
+        events.sort(key=lambda x: (int(x[1]), orders[x[0]]))
+        for event in events:
+            timeStamp = int(event[1])
+            if event[0] == "MESSAGE":
+                if event[2] == "ALL":
+                    for i in range(numberOfUsers):
+                        mentions[i] += 1
+                elif event[2] == "HERE":
+                    for i in range(numberOfUsers):
+                        if startOnlineTime[i] <= timeStamp:
+                            mentions[i] += 1
+                else:
+                    ids = event[2].split()
+                    for id in ids:
+                        mentions[int(id[2:])] += 1
+            else:
+                startOnlineTime[int(event[2])] = timeStamp + 60
+        return mentions
 
 
