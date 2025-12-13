@@ -175,3 +175,14 @@ class Solution:
         res += self.dfs_goodNodes(root.left, newMaxVal)
         res += self.dfs_goodNodes(root.right, newMaxVal)
         return res
+    # 98. Validate Binary Search Tree
+    def isValidBST(self, root: TreeNode | None) -> bool:
+        return self.dfs_isValidBST(root, None, None)
+    def dfs_isValidBST(self, root:TreeNode | None, ancestorL: TreeNode | None, ancestorR: TreeNode | None) -> bool:
+        if root == None:
+            return True
+        if ancestorL != None and root.val >= ancestorL.val:
+            return False
+        if ancestorR != None and root.val <= ancestorR.val:
+            return False
+        return self.dfs_isValidBST(root.left, root, ancestorR) and self.dfs_isValidBST(root.right, ancestorL, root)
