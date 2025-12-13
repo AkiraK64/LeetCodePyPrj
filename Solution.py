@@ -186,3 +186,18 @@ class Solution:
         if ancestorR != None and root.val <= ancestorR.val:
             return False
         return self.dfs_isValidBST(root.left, root, ancestorR) and self.dfs_isValidBST(root.right, ancestorL, root)
+    # 105. Construct Binary Tree from Preorder and Inorder
+    def buildTree(self, preorder: list[int], inorder: list[int]) -> TreeNode | None:
+        index = [0,0]
+        return self.dfs_buildTree(preorder, inorder, 5000, index)
+    def dfs_buildTree(self, preorder: list[int], inorder: list[int], limit: int, index: list[int]) -> TreeNode | None:
+        if index[0] >= len(preorder):
+            return None
+        if inorder[index[1]] == limit:
+            index[1] += 1
+            return None
+        root = TreeNode(preorder[index[0]])
+        index[0] += 1
+        root.left = self.dfs_buildTree(preorder, inorder, root.val, index)
+        root.right = self.dfs_buildTree(preorder, inorder, limit, index)
+        return root
