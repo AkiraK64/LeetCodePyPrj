@@ -1,5 +1,6 @@
 import heapq
 import math
+import re
 
 class DailySolution:
     def __init__(self):
@@ -140,5 +141,18 @@ class DailySolution:
             else:
                 startOnlineTime[int(event[2])] = timeStamp + 60
         return mentions
-
+    # 3606. Coupon Code Validator
+    def validateCoupons(self, code: list[str], businessLine: list[str], isActive: list[bool]) -> list[str]:
+        l = []
+        d = {"electronics" : 0, "grocery" : 1, "pharmacy" : 2, "restaurant" : 3}
+        n = len(code)
+        for i in range(n):
+            if not isActive[i]:
+                continue
+            if businessLine[i] not in d:
+                continue
+            if re.fullmatch(r"[a-zA-Z0-9_]+", code[i]):
+                l.append((code[i], businessLine[i]))
+        res = [code for code, line in sorted(l, key=lambda x: (d[x[1]], x[0]))]
+        return res
 
