@@ -155,4 +155,25 @@ class DailySolution:
                 l.append((code[i], businessLine[i]))
         res = [code for code, line in sorted(l, key=lambda x: (d[x[1]], x[0]))]
         return res
-
+    # 3652. Best Time to Buy and Sell Stock using Strategy
+    def maxProfit(self, prices: list[int], strategy: list[int], k: int) -> int:
+        subTotal = 0
+        subTotalModify = 0
+        l = 0
+        m = int(k / 2)
+        n = len(prices)
+        for i in range(k):
+            subTotal += prices[i] * strategy[i]
+            if i >= m:
+                subTotalModify += prices[i]
+        total = subTotal
+        modify = subTotalModify - subTotal
+        for r in range(k, n):
+            profit = prices[r] * strategy[r]
+            subTotal += (profit - prices[l] * strategy[l])
+            subTotalModify += (prices[r] - prices[m])
+            modify = max(modify, subTotalModify - subTotal)
+            total += profit
+            l += 1
+            m += 1
+        return max(total, total + modify)
