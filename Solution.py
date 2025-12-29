@@ -190,7 +190,7 @@ class Solution:
     def buildTree(self, preorder: list[int], inorder: list[int]) -> TreeNode | None:
         index = [0,0]
         return self.dfs_buildTree(preorder, inorder, 5000, index)
-    def dfs_buildTree(self, preorder: list[int], inorder: list[int], limit: int, index: list[int]) -> TreeNode | None:
+    def dfs_buildTree(self, preorder: list[int], inorder: list[int], limit: int, index: list[int]) -> TreeNode | None:        
         if index[0] >= len(preorder):
             return None
         if inorder[index[1]] == limit:
@@ -201,3 +201,21 @@ class Solution:
         root.left = self.dfs_buildTree(preorder, inorder, root.val, index)
         root.right = self.dfs_buildTree(preorder, inorder, limit, index)
         return root
+    # 960. Delete Columns to Make Sorted III
+    def minDeletionSize(self, strs: list[str]) -> int:
+        colCount = len(strs[0])
+        dp = [1] * colCount
+        for curCol in range(colCount):
+            for prevCol in range(curCol):
+                need_delete_this_col = False
+                for s in strs:
+                    if s[prevCol] > s[curCol]:
+                        need_delete_this_col = True
+                if not need_delete_this_col:
+                    dp[curCol] = max(dp[curCol], dp[prevCol] + 1)
+        maxi = 0
+        for d in dp:
+            maxi = max(d, maxi)
+        return colCount - maxi
+
+        
